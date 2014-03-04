@@ -7,6 +7,12 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="SubmenuPlaceHolder" runat="Server">
 
+    
+        <a href="CreateCategory.aspx" class="btn btn-default">Opret Kategori</a>
+    
+
+    <hr />
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Kategorier</h3>
@@ -24,9 +30,9 @@
                 <ItemTemplate>
                     <div class="panel-body">
                         <hr />
-                        <a href="#" class="col-xs-6"><%# Eval ("CategoryName") %></a><span class="col-xs-1"><%# Eval ("NumberOfThreads") %></span><span class="col-xs-1"><%# Eval ("NumberOfPosts") %></span><span class="col-xs-3">Her skal der stå tidspunkt</span><a href="#" class="col-xs-1 glyphicon glyphicon-pencil"></a>
+                        <a href="#" class="col-xs-6"><%# Eval ("CategoryName") %></a><span class="col-xs-1"><%# Eval ("NumberOfThreads") %></span><span class="col-xs-1"><%# Eval ("NumberOfPosts") %></span><span class="col-xs-3">Her skal der stå tidspunkt</span><a href="Edit.aspx?Id=<%# Eval ("CategoryId") %>" class="col-xs-1 glyphicon glyphicon-pencil"></a>
                         <br />
-                        <span class="col-xs-6"><%# Eval ("CategoryDescription") %></span><span class="col-xs-1"></span><span class="col-xs-1"></span><span class="col-xs-3">af <a href="#">brugernavn</a></span><a href="#" class="col-xs-1 glyphicon glyphicon-trash"></a>
+                        <span class="col-xs-6"><%# Eval ("CategoryDescription") %></span><span class="col-xs-1"></span><span class="col-xs-1"></span><span class="col-xs-3">af <a href="#">brugernavn</a></span><a href='#' class="col-xs-1 glyphicon glyphicon-trash"></a>
                         
                     </div>
 
