@@ -5,12 +5,10 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Category : System.Web.UI.Page
+public partial class CreateThread : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        string QsId = Request.QueryString["Id"];
-        ThreadRpt.DataSource = DataBaseQueries.GetThreadInfoData(QsId);
-        ThreadRpt.DataBind();
+
     }
 }
