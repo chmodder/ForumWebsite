@@ -37,4 +37,59 @@ public class DataBaseQueries
         return dt;
 
     }
+
+    public static void CreateCategory(string CatName, string CatDesc)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "CreateCategorySP";
+
+        cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = CatName;
+        cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = CatDesc;
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        cmd.ExecuteNonQuery();
+
+        conn.Close();
+    }
+
+    public static void DeleteCategory(string QsId)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "DeleteCategorySP";
+
+        cmd.Parameters.Add("@QsId", SqlDbType.Int).Value = Convert.ToInt32(QsId);
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        cmd.ExecuteNonQuery();
+
+        conn.Close();
+    }
+
+    public static void DeleteThread(string QsId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public static void DeletePost(string QsId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public static void DeleteUser(string QsId)
+    {
+        throw new NotImplementedException();
+    }
+
 }

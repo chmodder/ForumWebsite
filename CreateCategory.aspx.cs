@@ -11,4 +11,16 @@ public partial class CreateCategory : System.Web.UI.Page
     {
 
     }
+    protected void Discard_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Default.aspx");
+    }
+    protected void CreateCategoriesBtn_Click(object sender, EventArgs e)
+    {
+        DataBaseQueries.CreateCategory(CreateCategoryNameTxt.Text, CreateCategoryDescriptionTxt.Text);
+        CreateCategoryNameTxt.Text = "";
+        CreateCategoryDescriptionTxt.Text = "";
+        Response.Redirect("Default.aspx");
+
+    }
 }

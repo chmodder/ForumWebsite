@@ -10,8 +10,8 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="input-group">
-                <asp:Label ID="EditCategoryNameLbl" AssociatedControlID="EditCategoryNameTxt" class="input-group-addon" runat="server" Text="Kategori Navn"></asp:Label>
-                <asp:TextBox ID="EditCategoryNameTxt" class="form-control" runat="server"></asp:TextBox>
+                <asp:Label ID="CreateCategoryNameLbl" AssociatedControlID="CreateCategoryNameTxt" class="input-group-addon" runat="server" Text="Kategori Navn"></asp:Label>
+                <asp:TextBox ID="CreateCategoryNameTxt" class="form-control" runat="server"></asp:TextBox>
             </div>
             <!-- /input-group -->
         </div>
@@ -23,8 +23,8 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="input-group">
-                <asp:Label ID="EditCategoryDescriptionLbl" AssociatedControlID="EditCategoryDescriptionTxt" class="input-group-addon" runat="server" Text="Beskrivelse"></asp:Label>
-                <asp:TextBox ID="EditCategoryDescriptionTxt" class="form-control" runat="server"></asp:TextBox>
+                <asp:Label ID="CreateCategoryDescriptionLbl" AssociatedControlID="CreateCategoryDescriptionTxt" class="input-group-addon" runat="server" Text="Beskrivelse"></asp:Label>
+                <asp:TextBox ID="CreateCategoryDescriptionTxt" class="form-control" runat="server"></asp:TextBox>
             </div>
             <!-- /input-group -->
         </div>
@@ -32,10 +32,8 @@
     </div>
 
     <hr />
-    <asp:Button ID="Discard" class="btn btn-default" runat="server" Text="Annuler" />
-    <asp:Button ID="EditCategoriesBtn" class="btn btn-default" runat="server" Text="Gem" />
-<%--    <a href="#" class="btn btn-default glyphicon glyphicon-floppy-remove"></a>
-    <a href="#" class="btn btn-default glyphicon glyphicon-floppy-saved"></a>--%>
+    <asp:Button ID="Discard" class="btn btn-default" runat="server" Text="Annuler" OnClick="Discard_Click" />
+    <asp:Button ID="CreateCategoriesBtn" class="btn btn-default" runat="server" Text="Gem" OnClick="CreateCategoriesBtn_Click" />
 
 </asp:Content>
 
