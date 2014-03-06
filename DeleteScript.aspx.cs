@@ -7,6 +7,8 @@ using System.Web.UI.WebControls;
 
 public partial class DeleteScript : System.Web.UI.Page
 {
+    //QsModel og Model er den type der skal slettes. Fx. Kategori, tråd eller post
+
     protected string QsModel;
     protected string QsId;
 

@@ -32,7 +32,7 @@
                         <span class="col-xs-1"><%# Eval ("NumberOfPosts") %></span>
                         <span class="col-xs-1"></span>
                         <span class="col-xs-3">Her skal der stå tidspunkt</span>
-                        <a href='Edit.aspx?Id=<%# Eval ("ThreadId") %>' class="col-xs-1 glyphicon glyphicon-pencil"></a>
+                        <a href='EditThread.aspx?Model=Thread&Id=<%# Eval ("ThreadId") %>' class="col-xs-1 glyphicon glyphicon-pencil"></a>
                         <br />
                         <span class="col-xs-6">Trådstarter: <%--<%# Eval ("CreatedBy") %>--%></span>
                         <span class="col-xs-1"></span><span class="col-xs-1"></span>

@@ -13,7 +13,7 @@ public partial class _Default : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
 
-        CategoriesRpt.DataSource = DataBaseQueries.GetCategoriesInfoData();
+        CategoriesRpt.DataSource = DataBaseQueries.GetCategoriesInfoForCategoryList();
         CategoriesRpt.DataBind();
 
         //SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
