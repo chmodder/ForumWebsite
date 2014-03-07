@@ -6,7 +6,7 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder" Runat="Server">
 
-    <a href="CreateThread.aspx" class="btn btn-default">Opret Tråd</a>
+    <a href='CreateThread.aspx?CatId=<%= QsId %>' class="btn btn-default">Opret Tråd</a>
     
 
     <hr />
@@ -28,7 +28,7 @@
                 <ItemTemplate>
                     <div class="panel-body">
                         <hr />
-                        <a href="Thread.aspx?Id=<%# Eval ("ThreadId") %>" class="col-xs-6"><%# Eval ("ThreadName") %></a>
+                        <a href="Thread.aspx?Model=Thread&Id=<%# Eval ("ThreadId") %>" class="col-xs-6"><%# Eval ("ThreadName") %></a>
                         <span class="col-xs-1"><%# Eval ("NumberOfPosts") %></span>
                         <span class="col-xs-1"></span>
                         <span class="col-xs-3">Her skal der stå tidspunkt</span>

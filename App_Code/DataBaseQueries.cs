@@ -18,26 +18,6 @@ public class DataBaseQueries
         //
     }
 
-    //Returns data for Frontpage/Categorylist with info about number of threads and posts for each category
-    public static DataTable GetCategoriesInfoForCategoryList()
-    {
-        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
-        SqlCommand cmd = new SqlCommand();
-
-        cmd.CommandType = CommandType.StoredProcedure;
-        cmd.CommandText = "GetCategoriesInfo";
-
-        cmd.Connection = conn;
-
-        conn.Open();
-
-        SqlDataAdapter da = new SqlDataAdapter(cmd);
-        DataTable dt = new DataTable();
-        da.Fill(dt);
-        conn.Close();
-        return dt;
-
-    }
 
     //__________________________________EDIT_________________________________________//
 
@@ -121,7 +101,68 @@ public class DataBaseQueries
         return dt;
     }
 
-    //___________________________________________________________________________//
+
+    //____________________________READ________________________________________//
+
+
+    //Returns data for Frontpage/Categorylist with info about number of threads and posts for each category
+    public static DataTable GetCategoriesInfoForCategoryList()
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "GetCategoriesInfo";
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        DataTable dt = new DataTable();
+        da.Fill(dt);
+        conn.Close();
+        return dt;
+
+    }
+
+   
+    public static object GetModelTitle(String QsModel, string QsId)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+
+        switch (QsModel)
+        {
+
+            case "Category":
+                cmd.CommandText = "GetCategoryTitleSP";
+                break;
+            case "Thread":
+                cmd.CommandText = "GetThreadTitleSP";
+                break;
+            //case "Post": DataBaseQueries.GetModelTitle(QsId);
+            //    break;
+            //case "User": DataBaseQueries.GetModelTitle(QsId);
+            //    break;
+        }
+
+        cmd.Parameters.Add("@QsId", SqlDbType.Int).Value = Convert.ToInt32(QsId);
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        object ModelFromDb = cmd.ExecuteScalar();
+
+        conn.Close();
+
+
+        return ModelFromDb;
+    }
+
 
     public static object GetThreadInfoData(string QsId)
     {
@@ -144,6 +185,51 @@ public class DataBaseQueries
         return dt;
     }
 
+    public static object GetThreadContent(string QsId)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "GetThreadContentSP";
+
+        cmd.Parameters.Add("@QsId", SqlDbType.Int).Value = Convert.ToInt32(QsId);
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        DataTable dt = new DataTable();
+        da.Fill(dt);
+        conn.Close();
+        return dt;
+    }
+
+
+    public static object GetThreadTitle(string QsId)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "GetThreadTitleSP";
+
+        cmd.Parameters.Add("@QsId", SqlDbType.Int).Value = Convert.ToInt32(QsId);
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        DataTable dt = new DataTable();
+        da.Fill(dt);
+        conn.Close();
+        return dt;
+    }
+
+    //____________________________CREATE________________________________________//
+
     public static void CreateCategory(string CatName, string CatDesc)
     {
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
@@ -163,6 +249,32 @@ public class DataBaseQueries
 
         conn.Close();
     }
+
+    public static string CreateThread(int UserId, string CatId, string ThreadTitle, string ThreadContent)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "CreateThreadSP";
+
+        cmd.Parameters.Add("@CatId", SqlDbType.Int).Value = Convert.ToInt32(CatId);
+        cmd.Parameters.Add("@Title", SqlDbType.NVarChar).Value = ThreadTitle;
+        cmd.Parameters.Add("@Content", SqlDbType.NText).Value = ThreadContent;
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        string ThreadId = Convert.ToString(cmd.ExecuteScalar());
+
+        conn.Close();
+
+        return ThreadId;
+    }
+
+    //____________________________DELETE________________________________________//
 
     public static void DeleteCategory(string QsId)
     {
@@ -213,43 +325,6 @@ public class DataBaseQueries
         throw new NotImplementedException();
     }
 
-
-
-    public static object GetModelTitle(String QsModel, string QsId)
-    {
-        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
-        SqlCommand cmd = new SqlCommand();
-
-        cmd.CommandType = CommandType.StoredProcedure;
-
-        switch (QsModel)
-        {
-
-            case "Category":
-                cmd.CommandText = "GetCategoryTitleSP";
-                break;
-            case "Thread":
-                cmd.CommandText = "GetThreadTitleSP";
-                break;
-            //case "Post": DataBaseQueries.GetModelTitle(QsId);
-            //    break;
-            //case "User": DataBaseQueries.GetModelTitle(QsId);
-            //    break;
-        }
-
-        cmd.Parameters.Add("@QsId", SqlDbType.Int).Value = Convert.ToInt32(QsId);
-
-        cmd.Connection = conn;
-
-        conn.Open();
-
-        object ModelFromDb = cmd.ExecuteScalar();
-
-        conn.Close();
-
-
-        return ModelFromDb;
-    }
 
 
 

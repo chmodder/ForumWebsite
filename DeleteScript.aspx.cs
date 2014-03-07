@@ -49,8 +49,8 @@ public partial class DeleteScript : System.Web.UI.Page
         {
             case "Category": Response.Redirect("Default.aspx");
                 break;
-            //case "Thread": DataBaseQueries.DeleteThread(QsId);
-            //    break;
+            case "Thread": Response.Redirect("Category.aspx?Id=" + QsId);
+                break;
             //case "Post": DataBaseQueries.DeletePost(QsId);
             //    break;
             //case "User": DataBaseQueries.DeleteUser(QsId);

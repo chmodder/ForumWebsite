@@ -7,9 +7,11 @@ using System.Web.UI.WebControls;
 
 public partial class Category : System.Web.UI.Page
 {
+    public string QsId;
+
     protected void Page_Load(object sender, EventArgs e)
     {
-        string QsId = Request.QueryString["Id"];
+        QsId = Request.QueryString["Id"];
         ThreadRpt.DataSource = DataBaseQueries.GetThreadInfoData(QsId);
         ThreadRpt.DataBind();
     }
