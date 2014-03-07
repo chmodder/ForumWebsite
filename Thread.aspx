@@ -20,7 +20,7 @@
 
 
 
-    <table class="table table-bordered">
+    <table class="table table-striped">
 
         <asp:Repeater ID="PostsRpt" runat="server">
             <ItemTemplate>
@@ -30,7 +30,7 @@
                     <th><%# Eval ("PostCreationTime") %><span class="pull-right">hej</span></th>
                 </tr>
                 <tr>
-                    <td><%# Eval ("RoleName") %></td>
+                    <td><span class=""><%# Eval ("RoleName") %></span></td>
                     <td><%# Eval ("Content") %></td>
                 </tr>
 
@@ -40,5 +40,13 @@
 
     </table>
 
+    <hr />
+        
+
+    <div class="col-xs-6">
+        <textarea class="form-control" rows="5"></textarea>
+        <hr />
+        <a href="#" class="btn btn-default">Gem svar</a>
+    </div>
 </asp:Content>
 
