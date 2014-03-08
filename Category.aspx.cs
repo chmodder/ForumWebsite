@@ -8,10 +8,26 @@ using System.Web.UI.WebControls;
 public partial class Category : System.Web.UI.Page
 {
     public string QsId;
+    public string QsModel;
+    public string CatName;
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        
+        Session["LastPageCategory"] = Request.Url.PathAndQuery;
+
+        QsModel = "Category";
+
         QsId = Request.QueryString["Id"];
+        Session["CatId"] = QsId;
+
+        CatName = Convert.ToString(DataBaseQueries.GetModelTitle(QsModel, QsId));
+
+        Session["CatName"] = CatName;
+        Session["CatId"] = QsId;
+
+        
+
         ThreadRpt.DataSource = DataBaseQueries.GetThreadInfoData(QsId);
         ThreadRpt.DataBind();
     }

@@ -41,21 +41,24 @@ public partial class Edit : System.Web.UI.Page
         //Makes it possible to read values from textboxes inside a repeater. Also calls Update method
         foreach (RepeaterItem item in EditCategoryRpt.Items)
         {
-            //Creates empty string varibles
-            string CatName;
-            string CatDesc;
+            //Creates empty string varibles which gets its value later
+            //Category Name
+            string Param1;
+
+            //Category Description
+            string Param2;
 
             //Fetches value from the textbox "EditCategoryNameTxt", and puts it inside a TEXTBOX VARIBLE called "EditCategoryNameTxt"
             TextBox EditCategoryNameTxt = (TextBox)item.FindControl("EditCategoryNameTxt");
             //Fetches value from the TEXTBOX VARIBLE "EditCategoryNameTxt", and puts it inside the empty STRING VARIABLE called "CatName"
-            CatName = EditCategoryNameTxt.Text;
+            Param1 = EditCategoryNameTxt.Text;
 
             //Same principle as above
             TextBox EditCategoryDescriptionTxt = (TextBox)item.FindControl("EditCategoryDescriptionTxt");
-            CatDesc = EditCategoryDescriptionTxt.Text;
+            Param2 = EditCategoryDescriptionTxt.Text;
 
             //Calls Update method, which updates the table in the DB
-            DataBaseQueries.UpdateEditDataInBD(QsModel, QsId, CatName, CatDesc);
+            DataBaseQueries.UpdateEditDataInBD(QsModel, QsId, Param1, Param2);
         }
 
         Response.Redirect("Default.aspx");

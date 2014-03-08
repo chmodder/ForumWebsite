@@ -3,6 +3,15 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="SubmenuPlaceHolder" Runat="Server">
+
+    <ol class="breadcrumb">
+        <li><a href="Default.aspx">Home</a></li>
+
+                <li class="active"><%=CatName %></li>
+
+
+    </ol>
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder" Runat="Server">
 
@@ -13,13 +22,13 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">Kategorier</h3>
+            <h3 class="panel-title"><%=CatName %></h3>
         </div>
         <div class="panel-body">
             <h5 class="col-xs-6">Tråde</h5>
             <h5 class="col-xs-1">Indlæg</h5>
-            <h5 class="col-xs-1">Visninger</h5>
-            <h5 class="col-xs-4">Sidste indlæg</h5>
+            <h5 class="col-xs-1"></h5><!--"Visninger" (planlagt til v.1.1)-->
+            <h5 class="col-xs-4"></h5><!--"Sidste indlæg" (planlagt til v.1.1)-->
 
 
 
@@ -30,13 +39,13 @@
                         <hr />
                         <a href="Thread.aspx?Model=Thread&Id=<%# Eval ("ThreadId") %>" class="col-xs-6"><%# Eval ("ThreadName") %></a>
                         <span class="col-xs-1"><%# Eval ("NumberOfPosts") %></span>
-                        <span class="col-xs-1"></span>
-                        <span class="col-xs-3">Her skal der stå tidspunkt</span>
+                        <span class="col-xs-1"></span><!--her skal antallet af visninger stå (planlagt til v.1.1)-->
+                        <span class="col-xs-3"></span><!--her skal tidspunktet for seneste indlæg stå (planlagt til v.1.1)-->
                         <a href='EditThread.aspx?Model=Thread&Id=<%# Eval ("ThreadId") %>' class="col-xs-1 glyphicon glyphicon-pencil"></a>
                         <br />
-                        <span class="col-xs-6">Trådstarter: <%--<%# Eval ("CreatedBy") %>--%></span>
+                        <span class="col-xs-6"></span><!--her skal forfatteren af tråden stå "Trådstarter: <%--<%# Eval ("CreatedBy") %>--%>" (planlagt til v.1.1)-->
                         <span class="col-xs-1"></span><span class="col-xs-1"></span>
-                        <span class="col-xs-3">Sidste indlæg af <a href="#">brugernavn</a></span>
+                        <span class="col-xs-3"></span><!--her skal forfatteren af seneste indlæg stå "Sidste indlæg af <a href="#">brugernavn</a>" (planlagt til v.1.1)-->
                         <a href='DeleteScript.aspx?Model=Thread&Id=<%# Eval ("ThreadId") %>' class="col-xs-1 glyphicon glyphicon-trash"></a>
                         
                     </div>
@@ -51,7 +60,7 @@
 
         </div>
 
-        <div class="panel-footer">Panel footer</div>
+        <div class="panel-footer"></div>
     </div>
     
     

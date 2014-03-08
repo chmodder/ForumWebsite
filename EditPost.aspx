@@ -1,10 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Thread.aspx.cs" Inherits="Thread" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="EditPost.aspx.cs" Inherits="EditPost" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="SubmenuPlaceHolder" runat="Server">
-
-    <ol class="breadcrumb">
+<asp:Content ID="Content2" ContentPlaceHolderID="SubmenuPlaceHolder" Runat="Server">
+<ol class="breadcrumb">
         <li><a href="Default.aspx">Home</a></li>
         <li><a href='Category.aspx?Id=<%=CatId %>'><%=CatName %></a></li>
 
@@ -64,7 +63,7 @@
         </div>
 
         <div class="panel-footer">
-            <asp:Button ID="ShowEditor" class="btn btn-default" runat="server" Text="Opret svar" OnClick="ShowEditor_Click" />
+            
         </div>
     </div>
 
@@ -76,8 +75,7 @@
     <div class="col-xs-6">
         <textarea id="SubmitPostTA" class="form-control" rows="5" runat="server"></textarea>
         <hr />
-        <asp:Button ID="SubmitPostBtn" class="btn btn-default" runat="server" Text="Gem svar" OnClick="SubmitPostBtn_Click" />
-        
+        <asp:Button ID="SubmitPostBtn" class="btn btn-danger" runat="server" Text="Gem svar" />
+        <asp:Button ID="DiscardBtn" class="btn btn-default" runat="server" Text="Annuller"/>
     </div>
 </asp:Content>
-

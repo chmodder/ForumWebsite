@@ -11,18 +11,27 @@ public partial class DeleteScript : System.Web.UI.Page
 
     protected string QsModel;
     protected string QsId;
+    public string CatId;
 
     //Variablen der kaldes ved bekræftelse af sletning
     public string ModelTitleText;
 
     protected void Page_Load(object sender, EventArgs e)
     {
+
+        CatId = Convert.ToString(Session["CatId"]);
         QsModel = Request.QueryString["Model"];
         QsId = Request.QueryString["Id"];
 
         //Her defineres variablen der kaldes ved bekræftelse af sletning. Den indeholder Navnet på det der slettes
         ModelTitleText = Convert.ToString(DataBaseQueries.GetModelTitle(QsModel, QsId));
-        
+
+    }
+
+    protected void Discard_Click(object sender, EventArgs e)
+    {
+        Session["CatId"] = null;
+        Response.Redirect("Category.aspx?Id=" + CatId);
     }
 
     protected void ContinueDeletetion_Click(object sender, EventArgs e)
@@ -49,12 +58,15 @@ public partial class DeleteScript : System.Web.UI.Page
         {
             case "Category": Response.Redirect("Default.aspx");
                 break;
-            case "Thread": Response.Redirect("Category.aspx?Id=" + QsId);
+            case "Thread": Response.Redirect("Category.aspx?Id=" + CatId);
                 break;
-            //case "Post": DataBaseQueries.DeletePost(QsId);
+            //Not if allowing Post-deletion in a forum is a good idea.
+            //Need to find a way to paste "Post deleted" and disabling deletion of first post in thread if it should be allowed
+            //case "Post": Response.Redirect("Thread.aspx?Id=" + ThreadId);
             //    break;
             //case "User": DataBaseQueries.DeleteUser(QsId);
             //    break;
         }
     }
+
 }

@@ -29,15 +29,16 @@ public class DataBaseQueries
 
         cmd.CommandType = CommandType.StoredProcedure;
 
+
         switch (QsModel)
         {
 
             case "Category":
                 cmd.CommandText = "GetCategoryTableDataSP";
                 break;
-            //case "Thread":
-            //    cmd.CommandText = "GetThreadEditDataSP";
-            //    break;
+            case "Thread":
+                cmd.CommandText = "GetThreadAndFirstPostSP";
+                break;
             //case "Post":
             //    cmd.CommandText = "GetPostEditDataSP";
             //    break;
@@ -60,8 +61,8 @@ public class DataBaseQueries
         return dt;
     }
 
-    //Updates table with new data
-    public static DataTable UpdateEditDataInBD(string QsModel, string QsId, string CatName, string CatDesc)
+    //Updates table with new data (Category, Thread)
+    public static DataTable UpdateEditDataInBD(string QsModel, string QsId, string Param1, string Param2)
     {
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
         SqlCommand cmd = new SqlCommand();
@@ -73,12 +74,14 @@ public class DataBaseQueries
 
             case "Category":
                 cmd.CommandText = "UpdateCategoryTableDataSP";
-                cmd.Parameters.Add("@CatName", SqlDbType.NVarChar).Value = CatName;
-                cmd.Parameters.Add("@CatDesc", SqlDbType.NVarChar).Value = CatDesc;
+                cmd.Parameters.Add("@CatName", SqlDbType.NVarChar).Value = Param1;
+                cmd.Parameters.Add("@CatDesc", SqlDbType.NVarChar).Value = Param2;
                 break;
-            //case "Thread":
-            //    cmd.CommandText = "GetThreadEditDataSP";
-            //    break;
+            case "Thread":
+                cmd.CommandText = "UpdateThreadTableDataSP";
+                cmd.Parameters.Add("@ThreadTitle", SqlDbType.NVarChar).Value = Param1;
+                cmd.Parameters.Add("@ThreadContent", SqlDbType.NText).Value = Param2;
+                break;
             //case "Post":
             //    cmd.CommandText = "GetPostEditDataSP";
             //    break;
@@ -126,7 +129,6 @@ public class DataBaseQueries
 
     }
 
-   
     public static object GetModelTitle(String QsModel, string QsId)
     {
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
@@ -274,6 +276,27 @@ public class DataBaseQueries
         return ThreadId;
     }
 
+    public static void CreateNewPost(int UserId, string QsId, string NewPost)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "CreateNewPostSP";
+
+        cmd.Parameters.Add("@Content", SqlDbType.NText).Value = NewPost;
+        cmd.Parameters.Add("@ThreadId", SqlDbType.Int).Value = QsId;
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        cmd.ExecuteNonQuery();
+
+        conn.Close();
+    }
+
     //____________________________DELETE________________________________________//
 
     public static void DeleteCategory(string QsId)
@@ -324,6 +347,8 @@ public class DataBaseQueries
     {
         throw new NotImplementedException();
     }
+
+
 
 
 
