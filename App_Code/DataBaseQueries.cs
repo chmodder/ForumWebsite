@@ -104,6 +104,26 @@ public class DataBaseQueries
         return dt;
     }
 
+    public static void UpdatePostContent(string PostId, string EditedPost)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+
+        cmd.CommandText = "UpdatePostContentSP";
+
+        cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Convert.ToInt32(PostId);
+        cmd.Parameters.Add("@Content", SqlDbType.NText).Value = EditedPost;
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        cmd.ExecuteNonQuery();
+
+        conn.Close();
+    }
 
     //____________________________READ________________________________________//
 
@@ -196,6 +216,28 @@ public class DataBaseQueries
         cmd.CommandText = "GetThreadContentSP";
 
         cmd.Parameters.Add("@QsId", SqlDbType.Int).Value = Convert.ToInt32(QsId);
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        DataTable dt = new DataTable();
+        da.Fill(dt);
+        conn.Close();
+        return dt;
+    }
+
+
+    public static object GetPostContent(string PostId)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "GetPostContentSP";
+
+        cmd.Parameters.Add("@PostId", SqlDbType.Int).Value = Convert.ToInt32(PostId);
 
         cmd.Connection = conn;
 
@@ -347,10 +389,6 @@ public class DataBaseQueries
     {
         throw new NotImplementedException();
     }
-
-
-
-
 
 
 }

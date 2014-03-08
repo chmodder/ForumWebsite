@@ -14,6 +14,8 @@ public partial class Thread : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        Session["LastPageThread"] = Request.Url.PathAndQuery;
+
         CatId = Convert.ToString(Session["CatId"]) ;
         CatName = Convert.ToString(Session["CatName"]);
 
@@ -57,7 +59,5 @@ public partial class Thread : System.Web.UI.Page
         string NewPost = SubmitPostTA.InnerText;
         
         DataBaseQueries.CreateNewPost(UserId, QsId, NewPost);
-        SubmitPostTA.InnerText = "";
-        Response.Redirect(Request.RawUrl);
     }
 }

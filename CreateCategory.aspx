@@ -24,7 +24,7 @@
         <div class="col-xs-6">
             <div class="input-group">
                 <asp:Label ID="CreateCategoryDescriptionLbl" AssociatedControlID="CreateCategoryDescriptionTxt" class="input-group-addon" runat="server" Text="Beskrivelse"></asp:Label>
-                <asp:TextBox ID="CreateCategoryDescriptionTxt" class="form-control" runat="server"></asp:TextBox>
+                <asp:TextBox ID="CreateCategoryDescriptionTxt" TextMode="MultiLine" Rows="5" class="form-control" runat="server"></asp:TextBox>
             </div>
             <!-- /input-group -->
         </div>

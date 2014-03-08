@@ -39,7 +39,7 @@
                 <div class="col-xs-6">
                     <div class="input-group">
                         <asp:Label ID="EditThreadContentLbl" AssociatedControlID="EditThreadContentTxt" class="input-group-addon" runat="server" Text="Indhold"></asp:Label>
-                        <asp:TextBox ID="EditThreadContentTxt" class="form-control" runat="server" Text='<%# Eval ("Content") %>'></asp:TextBox>
+                        <asp:TextBox ID="EditThreadContentTxt" class="form-control" TextMode="MultiLine" Rows="5" runat="server" Text='<%# Eval ("Content") %>'></asp:TextBox>
 
                     </div>
                     <!-- /input-group -->
