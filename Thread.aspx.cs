@@ -59,5 +59,11 @@ public partial class Thread : System.Web.UI.Page
         string NewPost = SubmitPostTA.InnerText;
         
         DataBaseQueries.CreateNewPost(UserId, QsId, NewPost);
+
+        SubmitPostTA.InnerText = "";
+
+        //Refreshes page
+        string RefreshThisPage = Convert.ToString(Session["LastPageThread"]);
+        Response.Redirect(RefreshThisPage);
     }
 }

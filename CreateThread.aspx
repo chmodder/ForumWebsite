@@ -24,7 +24,7 @@
         <div class="col-xs-6">
             <div class="input-group">
                 <asp:Label ID="CreateThreadContentLbl" AssociatedControlID="CreateThreadContentTxt" class="input-group-addon" runat="server" Text="Indhold"></asp:Label>
-                <asp:TextBox ID="CreateThreadContentTxt" class="form-control" runat="server"></asp:TextBox>
+                <asp:TextBox ID="CreateThreadContentTxt" class="form-control" TextMode="MultiLine" Rows="5" runat="server"></asp:TextBox>
                 
             </div>
             <!-- /input-group -->
