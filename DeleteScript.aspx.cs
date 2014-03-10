@@ -31,7 +31,7 @@ public partial class DeleteScript : System.Web.UI.Page
     protected void Discard_Click(object sender, EventArgs e)
     {
         Session["CatId"] = null;
-        Response.Redirect("Category.aspx?Id=" + CatId);
+        Response.Redirect("Default.aspx");
     }
 
     protected void ContinueDeletetion_Click(object sender, EventArgs e)

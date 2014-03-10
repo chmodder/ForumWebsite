@@ -125,6 +125,30 @@ public class DataBaseQueries
         conn.Close();
     }
 
+
+    public static void UpdateEditedUserDataInDB(int UserId, string UserName, string Email, string Password)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+
+        cmd.CommandText = "UpdateUserInfoSP";
+
+        cmd.Parameters.Add("@Id", SqlDbType.Int).Value = UserId;
+        cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = UserName;
+        cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = Email;
+        cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = Password;
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        cmd.ExecuteNonQuery();
+
+        conn.Close();
+    }
+
     //____________________________READ________________________________________//
 
 
@@ -250,6 +274,33 @@ public class DataBaseQueries
         return dt;
     }
 
+    public static object GetUserInfo(int UserId)
+    {
+        //Adds value (guestuser) until login is finished, then moves thie function to login.
+        if (UserId <= 0 )
+        {
+            UserId = 3;
+        }
+        //////
+
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "GetAllUserInfoSP";
+
+        cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Convert.ToInt32(UserId);
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        DataTable dt = new DataTable();
+        da.Fill(dt);
+        conn.Close();
+        return dt;
+    }
 
     public static object GetThreadTitle(string QsId)
     {
@@ -389,6 +440,8 @@ public class DataBaseQueries
     {
         throw new NotImplementedException();
     }
+
+
 
 
 }
