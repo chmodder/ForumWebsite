@@ -12,7 +12,7 @@ public partial class MyPage : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
 
-        Session["MyUserPage"] = Request.Url.PathAndQuery;
+        Session["LastPage"] = Request.Url.PathAndQuery;
 
         UserId = Convert.ToInt32(Session["UserId"]);
 
@@ -35,6 +35,6 @@ public partial class MyPage : System.Web.UI.Page
 
     protected void DeleteUserBtn_Click(object sender, EventArgs e)
     {
-        Response.Redirect("#");
+        Response.Redirect("DeleteScript.aspx?Model=User&Id=" + UserId);
     }
 }

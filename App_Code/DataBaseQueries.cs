@@ -183,19 +183,23 @@ public class DataBaseQueries
         switch (QsModel)
         {
 
+
             case "Category":
+                cmd.Parameters.Add("@QsId", SqlDbType.Int).Value = Convert.ToInt32(QsId);
                 cmd.CommandText = "GetCategoryTitleSP";
                 break;
             case "Thread":
+                cmd.Parameters.Add("@QsId", SqlDbType.Int).Value = Convert.ToInt32(QsId);
                 cmd.CommandText = "GetThreadTitleSP";
                 break;
             //case "Post": DataBaseQueries.GetModelTitle(QsId);
             //    break;
-            //case "User": DataBaseQueries.GetModelTitle(QsId);
-            //    break;
+            case "User":
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Convert.ToInt32(QsId);
+                cmd.CommandText = "GetAllUserInfoSP";
+                break;
         }
 
-        cmd.Parameters.Add("@QsId", SqlDbType.Int).Value = Convert.ToInt32(QsId);
 
         cmd.Connection = conn;
 
@@ -277,7 +281,7 @@ public class DataBaseQueries
     public static object GetUserInfo(int UserId)
     {
         //Adds value (guestuser) until login is finished, then moves thie function to login.
-        if (UserId <= 0 )
+        if (UserId <= 0)
         {
             UserId = 3;
         }
@@ -290,6 +294,27 @@ public class DataBaseQueries
         cmd.CommandText = "GetAllUserInfoSP";
 
         cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Convert.ToInt32(UserId);
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        DataTable dt = new DataTable();
+        da.Fill(dt);
+        conn.Close();
+        return dt;
+    }
+
+
+    public static object GetUserListInfo()
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "GetUserListInfoSP";
+
 
         cmd.Connection = conn;
 
@@ -438,7 +463,21 @@ public class DataBaseQueries
 
     public static void DeleteUser(string QsId)
     {
-        throw new NotImplementedException();
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "DeleteUserSP";
+
+        cmd.Parameters.Add("@QsId", SqlDbType.Int).Value = Convert.ToInt32(QsId);
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        cmd.ExecuteNonQuery();
+
+        conn.Close();
     }
 
 

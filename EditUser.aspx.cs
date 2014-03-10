@@ -8,14 +8,14 @@ using System.Web.UI.WebControls;
 public partial class EditUser : System.Web.UI.Page
 {
     //This page
-    string MyUserUrl;
+    string LastPage;
 
     //Current user
     int UserId;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        MyUserUrl = Convert.ToString(Session["MyUserPage"]);
+        LastPage = Convert.ToString(Session["LastPage"]);
 
         UserId = Convert.ToInt32(Request.QueryString["Id"]);
 
@@ -29,7 +29,7 @@ public partial class EditUser : System.Web.UI.Page
 
     protected void Discard_Click(object sender, EventArgs e)
     {
-        Response.Redirect(MyUserUrl);
+        Response.Redirect("DeleteScript.aspx?Model=User&Id=" + UserId);
     }
 
     protected void SaveEditedUserBtn_Click(object sender, EventArgs e)
@@ -66,6 +66,7 @@ public partial class EditUser : System.Web.UI.Page
 
         //DataBaseQueries.EditUserInfoRpt();
 
-        Response.Redirect(MyUserUrl);
+        
+        Response.Redirect(LastPage);
     }
 }

@@ -53,6 +53,8 @@
                                     <li><a href="#">Opret bruger</a></li>
                                     <li><a href="MyPage.aspx">Min side</a></li>
                                     <li class="divider"></li>
+                                    <li><a href="UserList.aspx">Brugerliste</a></li>
+                                    <li class="divider"></li>
                                     <li><a href="#">Log ud</a></li>
                                 </ul>
                             </li>

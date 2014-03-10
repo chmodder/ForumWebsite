@@ -31,7 +31,20 @@ public partial class DeleteScript : System.Web.UI.Page
     protected void Discard_Click(object sender, EventArgs e)
     {
         Session["CatId"] = null;
-        Response.Redirect("Default.aspx");
+
+        switch (QsModel)
+        {
+            default: Response.Redirect("Default.aspx");
+                break;
+            case "Category": Response.Redirect("Default.aspx");
+                break;
+            case "Thread": Response.Redirect("Category.aspx?Id=" + CatId);
+                break;
+            case "User": Response.Redirect("MyPage.aspx");
+                break;
+
+        }
+
     }
 
     protected void ContinueDeletetion_Click(object sender, EventArgs e)
@@ -48,8 +61,8 @@ public partial class DeleteScript : System.Web.UI.Page
                 break;
             //case "Post": DataBaseQueries.DeletePost(QsId);
             //    break;
-            //case "User": DataBaseQueries.DeleteUser(QsId);
-            //    break;
+            case "User": DataBaseQueries.DeleteUser(QsId);
+                break;
 
         }
 
@@ -60,12 +73,22 @@ public partial class DeleteScript : System.Web.UI.Page
                 break;
             case "Thread": Response.Redirect("Category.aspx?Id=" + CatId);
                 break;
-            //Not if allowing Post-deletion in a forum is a good idea.
+            //Not sure if allowing Post-deletion in a forum is a good idea.
             //Need to find a way to paste "Post deleted" and disabling deletion of first post in thread if it should be allowed
             //case "Post": Response.Redirect("Thread.aspx?Id=" + ThreadId);
             //    break;
-            //case "User": DataBaseQueries.DeleteUser(QsId);
-            //    break;
+
+
+                ///VIRKER IKKE ENDNU
+            case "User": if ((string)Session["UserId"] == QsId)
+                {
+                    Response.Redirect("logOut.aspx");
+                }
+                else
+                {
+                    Response.Redirect("UserList.aspx");
+                }
+                break;
         }
     }
 

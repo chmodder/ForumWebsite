@@ -39,7 +39,7 @@
                         <span class="col-xs-6"><%# Eval ("CategoryDescription") %></span>
                         <span class="col-xs-1"></span><span class="col-xs-1"></span>
                         <span class="col-xs-3">af <a href="#">brugernavn</a></span>
-                        <a href='DeleteScript.aspx?Model=Category&Id=<%# Eval ("CategoryId") %>' class="col-xs-1 glyphicon glyphicon-trash"></a>
+                        <a href='<' class="col-xs-1 glyphicon glyphicon-trash"></a>
                         
                     </div>
 
