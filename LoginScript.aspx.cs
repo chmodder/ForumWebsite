@@ -9,8 +9,11 @@ public partial class LoginScript : System.Web.UI.Page
 {
     private string UserName;
     private string PassWord;
+    protected string LastPage;
+
     protected void Page_Load(object sender, EventArgs e)
     {
+        LastPage = Convert.ToString(Session["LastPage"]);
         UserName = Convert.ToString(Session["UserName"]);
         PassWord = Convert.ToString(Session["PassWord"]);
         string RoleId;
@@ -26,13 +29,22 @@ public partial class LoginScript : System.Web.UI.Page
             Per.CreatePrivilegeSession();
 
             //Return to last page or frontpage?___//
-            //Til Forsiden
-            Response.Redirect("Default.aspx");
+            if (LastPage != null)
+            {
+                //Back to the last page
+                Response.Redirect(LastPage);
+            }
+            else
+            {
+                //Til Forsiden
+                Response.Redirect("Default.aspx");
+            }
+
             //____________________________________//
         }
         else
         {
-            
+
             //sæt brugerens rolle til gæst
             RoleId = "3";
             //Get privileges

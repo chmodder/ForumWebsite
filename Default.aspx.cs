@@ -12,6 +12,8 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        CreateCategoryLink.Visible = Per.Allowed("CreateCategory");
+        CreateCategoryLinkSeparator.Visible = Per.Allowed("CreateCategory");
 
         CategoriesRpt.DataSource = DataBaseQueries.GetCategoriesInfoForCategoryList();
         CategoriesRpt.DataBind();

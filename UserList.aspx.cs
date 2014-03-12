@@ -9,12 +9,21 @@ public partial class UserList : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        Session["LastPage"] = Request.Url.PathAndQuery;
-
-        if (!IsPostBack)
+        if (!Per.Allowed("ShowUserList"))
         {
-            UserListRpt.DataSource = DataBaseQueries.GetUserListInfo();
-            UserListRpt.DataBind();
+            Response.Redirect("Default.aspx");
         }
+        else
+        {
+            Session["LastPage"] = Request.Url.PathAndQuery;
+
+            if (!IsPostBack)
+            {
+                UserListRpt.DataSource = DataBaseQueries.GetUserListInfo();
+                UserListRpt.DataBind();
+            }
+        }
+
+
     }
 }

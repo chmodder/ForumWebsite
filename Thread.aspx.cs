@@ -14,7 +14,11 @@ public partial class Thread : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        Session["LastPageThread"] = Request.Url.PathAndQuery;
+        PostEditor.Visible = Per.Allowed("CreatePost");
+        PostEditorDivider.Visible = Per.Allowed("CreatePost");
+        ShowEditor.Visible = !Per.Allowed("CreatePost");
+
+        Session["LastPage"] = Request.Url.PathAndQuery;
 
         CatId = Convert.ToString(Session["CatId"]) ;
         CatName = Convert.ToString(Session["CatName"]);
@@ -51,6 +55,8 @@ public partial class Thread : System.Web.UI.Page
         //Tjek om bruger er logget ind.
         //Hvis ikke, så gå til Login først, og husk hvilken tråd brugeren kom fra.
         //Hvis bruger er logget ind skal ShpwEditor-knappen fjernes, og editoren skal vises.
+        Response.Redirect("Login.aspx");
+
 
     }
     protected void SubmitPostBtn_Click(object sender, EventArgs e)
@@ -63,7 +69,7 @@ public partial class Thread : System.Web.UI.Page
         SubmitPostTA.InnerText = "";
 
         //Refreshes page
-        string RefreshThisPage = Convert.ToString(Session["LastPageThread"]);
+        string RefreshThisPage = Convert.ToString(Session["LastPage"]);
         Response.Redirect(RefreshThisPage);
     }
 }

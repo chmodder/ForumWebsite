@@ -15,7 +15,7 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder" Runat="Server">
 
-    <a href='CreateThread.aspx?CatId=<%= QsId %>' class="btn btn-default">Opret Tråd</a>
+    <a id="CreateThreadLink" runat="server" visible="false" href='CreateThread.aspx?CatId=<%= QsId %>' class="btn btn-default">Opret Tråd</a>
     
 
     <hr />

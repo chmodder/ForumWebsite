@@ -8,10 +8,10 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="SubmenuPlaceHolder" runat="Server">
 
     
-        <a href="CreateCategory.aspx" class="btn btn-default">Opret Kategori</a>
+        <a id="CreateCategoryLink" runat="server" visible="false" href="CreateCategory.aspx" class="btn btn-default">Opret Kategori</a>
     
 
-    <hr />
+    <hr id="CreateCategoryLinkSeparator" runat="server" visible="false"  />
 
     <div class="panel panel-default">
         <div class="panel-heading">

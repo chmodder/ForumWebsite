@@ -11,14 +11,21 @@ public partial class MyPage : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Session["UserId"] == null)
+        {
+            Response.Redirect("Default.aspx");
+        }
+        else
+        {
+            Session["LastPage"] = Request.Url.PathAndQuery;
 
-        Session["LastPage"] = Request.Url.PathAndQuery;
-
-        UserId = Convert.ToInt32(Session["UserId"]);
+            UserId = Convert.ToInt32(Session["UserId"]);
 
 
-        MyInfoRpt.DataSource = DataBaseQueries.GetUserInfo(UserId);
-        MyInfoRpt.DataBind();
+            MyInfoRpt.DataSource = DataBaseQueries.GetUserInfo(UserId);
+            MyInfoRpt.DataBind();
+        }
+
 
     }
 

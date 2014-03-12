@@ -70,10 +70,10 @@
 
 
 
-    <hr />
+    <hr id="PostEditorDivider" runat="server" visible="false" />
 
-
-    <div class="col-xs-6">
+    
+    <div id="PostEditor" runat="server" visible="false" class="col-xs-6">
         <textarea id="SubmitPostTA" class="form-control" rows="5" runat="server"></textarea>
         <hr />
         <asp:Button ID="SubmitPostBtn" class="btn btn-default" runat="server" Text="Gem svar" OnClick="SubmitPostBtn_Click" />

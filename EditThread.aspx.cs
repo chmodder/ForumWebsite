@@ -14,7 +14,7 @@ public partial class EditThread : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         //Adds value to BackToCategory variable
-        BackToCategory = Convert.ToString(Session["LastPageCategory"]);
+        BackToCategory = Convert.ToString(Session["LastPage"]);
 
         QsModel = Request.QueryString["Model"];
         QsId = Request.QueryString["Id"];

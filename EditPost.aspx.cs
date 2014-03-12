@@ -18,7 +18,7 @@ public partial class EditPost : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        LastPageThread = Convert.ToString(Session["LastPageThread"]);
+        LastPageThread = Convert.ToString(Session["LastPage"]);
 
         CatId = Convert.ToString(Session["CatId"]);
         CatName = Convert.ToString(Session["CatName"]);

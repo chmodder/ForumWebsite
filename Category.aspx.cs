@@ -13,8 +13,10 @@ public partial class Category : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        
-        Session["LastPageCategory"] = Request.Url.PathAndQuery;
+
+        CreateThreadLink.Visible = Per.Allowed("CreateCategory");
+
+        Session["LastPage"] = Request.Url.PathAndQuery;
 
         QsModel = "Category";
 
