@@ -8,8 +8,12 @@
 
     <asp:Repeater ID="UserListRpt" runat="server">
         <ItemTemplate>
+            <asp:Label ID="UserNameLabelLbl" runat="server" Text="Brugernavn: "></asp:Label>
             <asp:Label ID="UserNameLbl" runat="server" Text='<%# Eval ("UserName") %>'></asp:Label>
+            <br />
+            <asp:Label ID="RoleNameLabelLbl" runat="server" Text="Rolle: "></asp:Label>
             <asp:Label ID="RoleNameLbl" runat="server" Text='<%# Eval ("RoleName") %>'></asp:Label>
+            <br />
             <a href='DeleteScript.aspx?Model=User&Id=<%# Eval ("UserId") %>'>Slet bruger</a>
             <a href='EditUser.aspx?Model=User&Id=<%# Eval ("UserId") %>'>Rediger bruger</a>
             <hr />

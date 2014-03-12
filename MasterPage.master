@@ -49,13 +49,14 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle glyphicon glyphicon-user" data-toggle="dropdown"> <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Log ind</a></li>
-                                    <li><a href="#">Opret bruger</a></li>
-                                    <li><a href="MyPage.aspx">Min side</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="UserList.aspx">Brugerliste</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">Log ud</a></li>
+                                    
+                                    <li id="LoginLink" runat="server" visible='false'><a href="Login.aspx">Log ind</a></li>
+                                    <li id="CreateUserLink" runat="server" visible='false'><a href="CreateUser.aspx">Opret bruger</a></li>
+                                    <li id="MyPageLink" runat="server" visible='false'><a href="MyPage.aspx">Min side</a></li>
+                                    <li id="UserListLinkDivider" runat="server" visible='false' class="divider"></li>
+                                    <li id="UserListLink" runat="server" visible='false'><a href="UserList.aspx">Brugerliste</a></li>
+                                    <li id="LogOutLinkDivider" runat="server" visible='false' class="divider"></li>
+                                    <li id="LogOutLink" runat="server" visible='false'><a href="LogOut.aspx">Log ud</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -64,6 +65,20 @@
                 </div>
                 <!-- /.container-fluid -->
             </nav>
+
+            <%-- Flash Besked --%>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-lg-4 col-sm-offset-3 col-md-offset-4 col-lg-offset-4">
+                    <%-- Besked --%>
+                    <%-- Div-boks med succes-meddelelse. Ikke synlig --%>
+                    <asp:Panel ID="PanelMsg" runat="server" CssClass="alert alert-success alert-dismissable" Visible='false'>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <asp:Label ID="LabelMsg" runat="server" Text=""></asp:Label>
+                    </asp:Panel>
+                </div>
+            </div>
+        </div>
 
             <hr />
 

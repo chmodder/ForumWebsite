@@ -33,7 +33,7 @@
     </div>
     
     <hr />
-    <asp:Button ID="Discard" class="btn btn-default" runat="server" Text="Annuler" OnClick="Discard_Click" />
+    <asp:Button ID="Discard" class="btn btn-default" runat="server" Text="Annuller" OnClick="Discard_Click" />
     <asp:Button ID="CreateThreadBtn" class="btn btn-default" runat="server" Text="Gem" OnClick="CreateThreadBtn_Click" />
 
 </asp:Content>

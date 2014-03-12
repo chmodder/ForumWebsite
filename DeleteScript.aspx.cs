@@ -18,7 +18,6 @@ public partial class DeleteScript : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
         CatId = Convert.ToString(Session["CatId"]);
         QsModel = Request.QueryString["Model"];
         QsId = Request.QueryString["Id"];
@@ -80,7 +79,7 @@ public partial class DeleteScript : System.Web.UI.Page
 
 
                 ///VIRKER IKKE ENDNU
-            case "User": if ((string)Session["UserId"] == QsId)
+            case "User": if (Convert.ToString(Session["UserId"]) == QsId)
                 {
                     Response.Redirect("logOut.aspx");
                 }

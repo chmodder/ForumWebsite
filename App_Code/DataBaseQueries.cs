@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -280,12 +281,7 @@ public class DataBaseQueries
 
     public static object GetUserInfo(int UserId)
     {
-        //Adds value (guestuser) until login is finished, then moves thie function to login.
-        if (UserId <= 0)
-        {
-            UserId = 3;
-        }
-        //////
+        
 
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
         SqlCommand cmd = new SqlCommand();
@@ -347,6 +343,69 @@ public class DataBaseQueries
         conn.Close();
         return dt;
     }
+
+    public static bool AuthenticateUserCredentials(string UserName, string PassWord)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "AuthenticateUserCredentialsSP";
+
+        cmd.Parameters.Add("@UserName", SqlDbType.NVarChar).Value = UserName;
+        cmd.Parameters.Add("@PassWord", SqlDbType.NVarChar).Value = PassWord;
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        SqlDataReader reader = cmd.ExecuteReader();
+
+        if (reader.Read())
+        {
+            HttpContext.Current.Session["UserId"] = reader["UserId"];
+            HttpContext.Current.Session["UserRole"] = reader["UserRole"];
+            HttpContext.Current.Session["RoleId"] = reader["RoleId"];
+            conn.Close();
+            return true;
+
+        }
+
+        else
+        {
+            return false;
+        }
+
+    }
+
+
+    internal static object Privileges(object RoleId)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "GetCurrentUserPrivilegesSP";
+
+        cmd.Parameters.Add("@RoleId", SqlDbType.Int).Value = Convert.ToInt32(RoleId);
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        ArrayList PrivilegesList = new ArrayList();
+
+        SqlDataReader reader = cmd.ExecuteReader();
+
+        foreach (var Privilege in reader)
+        {
+            PrivilegesList.Add(reader["CodeName"]);
+        }
+
+        conn.Close();
+        return PrivilegesList;
+    }
+
 
     //____________________________CREATE________________________________________//
 
@@ -415,6 +474,31 @@ public class DataBaseQueries
         conn.Close();
     }
 
+
+    public static string CreateNewUser(string UserName, string PassWord, string Email, int RoleId)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "CreateNewUserSP";
+
+        cmd.Parameters.Add("@UserName", SqlDbType.NVarChar).Value = UserName;
+        cmd.Parameters.Add("@PassWord", SqlDbType.NVarChar).Value = PassWord;
+        cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = Email;
+        cmd.Parameters.Add("@RoleId", SqlDbType.Int).Value = RoleId;
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        string UserId = Convert.ToString(cmd.ExecuteScalar());
+
+        conn.Close();
+
+        return UserId;
+    }
+
     //____________________________DELETE________________________________________//
 
     public static void DeleteCategory(string QsId)
@@ -479,7 +563,6 @@ public class DataBaseQueries
 
         conn.Close();
     }
-
 
 
 

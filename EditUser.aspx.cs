@@ -29,7 +29,7 @@ public partial class EditUser : System.Web.UI.Page
 
     protected void Discard_Click(object sender, EventArgs e)
     {
-        Response.Redirect("DeleteScript.aspx?Model=User&Id=" + UserId);
+        Response.Redirect(LastPage);
     }
 
     protected void SaveEditedUserBtn_Click(object sender, EventArgs e)
@@ -66,7 +66,7 @@ public partial class EditUser : System.Web.UI.Page
 
         //DataBaseQueries.EditUserInfoRpt();
 
-        
+
         Response.Redirect(LastPage);
     }
 }

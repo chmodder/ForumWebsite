@@ -16,12 +16,6 @@ public partial class MyPage : System.Web.UI.Page
 
         UserId = Convert.ToInt32(Session["UserId"]);
 
-        //temp until login works
-        if (UserId <= 0)
-        {
-            UserId = 3;
-        }
-        //____//
 
         MyInfoRpt.DataSource = DataBaseQueries.GetUserInfo(UserId);
         MyInfoRpt.DataBind();
