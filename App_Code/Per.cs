@@ -33,6 +33,15 @@ public class Per
 
 
 
+
+
+    public static bool EditPostPrivilege(object PostId)
+    {
+        int NewPostId = Convert.ToInt32(PostId);
+        return (Per.IsPostMine("EditPost", NewPostId) || Per.IsPostMine("IsPostOwner", NewPostId))?true:false;
+        
+    }
+
     public static bool IsPostMine(string CodeName, object PostId)
     {
         int UserId = Convert.ToInt32(HttpContext.Current.Session["UserId"]);
@@ -56,10 +65,42 @@ public class Per
         }
     }
 
-    public static object EditPostPrivilege(object PostId)
+
+    #region EditThread
+    public static bool EditThreadPrivilege(object ThreadId)
     {
-        int NewPostId = Convert.ToInt32(PostId);
-        return (Per.IsPostMine("EditPost", NewPostId) || Per.IsPostMine("IsPostOwner", NewPostId))?true:false;
-        
+        if (ThreadId.ToString() != "")
+        {
+            int NewThreadId = Convert.ToInt32(ThreadId);
+        return (Per.IsThreadMine("EditThread", NewThreadId) || Per.IsThreadMine("IsThreadOwner", NewThreadId)) ? true : false;
+        }
+        else
+        {
+            return false;
+        }
     }
+
+    public static bool IsThreadMine(string CodeName, object ThreadId)
+    {
+        int UserId = Convert.ToInt32(HttpContext.Current.Session["UserId"]);
+        //Tjekke rettigheder
+        if (Allowed(CodeName))
+        {
+            //PostOwner ejer ALLE indlæg. Bruges til fx. Admin eller moderator, som skal kunne slette alle indlæg
+            if (CodeName == "IsThreadOwner")
+            {
+                return true;
+            }
+            else
+            {
+                //Tjekke ejerskab            
+                return DataBaseQueries.IsPostMine(UserId, ThreadId);
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    #endregion
 }

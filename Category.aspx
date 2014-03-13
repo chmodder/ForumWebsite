@@ -41,7 +41,8 @@
                         <span class="col-xs-1"><%# Eval ("NumberOfPosts") %></span>
                         <span class="col-xs-1"></span><!--her skal antallet af visninger stå (planlagt til v.1.1)-->
                         <span class="col-xs-3"></span><!--her skal tidspunktet for seneste indlæg stå (planlagt til v.1.1)-->
-                        <a href='EditThread.aspx?Model=Thread&Id=<%# Eval ("ThreadId") %>' class="col-xs-1 glyphicon glyphicon-pencil"></a>
+                        <%--<a href='EditThread.aspx?Model=Thread&Id=<%# Eval ("ThreadId") %>' class="col-xs-1 glyphicon glyphicon-pencil"></a>--%>
+                        <asp:HyperLink ID="EditThreadLink" runat="server" NavigateUrl='<%#"EditThread.aspx?Model=Thread&Id=" +  Eval ("ThreadId") %>' class="col-xs-1 glyphicon glyphicon-pencil" Visible='<%# Per.EditThreadPrivilege(Eval("ThreadId")) %>'></asp:HyperLink>
                         <br />
                         <span class="col-xs-6"></span><!--her skal forfatteren af tråden stå "Trådstarter: <%--<%# Eval ("CreatedBy") %>--%>" (planlagt til v.1.1)-->
                         <span class="col-xs-1"></span><span class="col-xs-1"></span>
