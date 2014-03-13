@@ -20,7 +20,7 @@ public partial class Thread : System.Web.UI.Page
 
         Session["LastPage"] = Request.Url.PathAndQuery;
 
-        CatId = Convert.ToString(Session["CatId"]) ;
+        CatId = Convert.ToString(Session["CatId"]);
         CatName = Convert.ToString(Session["CatName"]);
 
         //Hvis bruger er logget ind skal ShpwEditor-knappen fjernes, og editoren skal vises.
@@ -38,7 +38,14 @@ public partial class Thread : System.Web.UI.Page
 
         TitleRpt2.DataSource = DataBaseQueries.GetThreadTitle(QsId);
         TitleRpt2.DataBind();
+
+        //foreach (RepeaterItem item in PostsRpt.Items)
+        //{
+        //    FindControl("EditPostLink").Visible = false;
+        //}
     }
+
+
 
     //private void PostCounter()
     //{
@@ -63,7 +70,7 @@ public partial class Thread : System.Web.UI.Page
     {
         int UserId = Convert.ToInt32(Session["UserId"]);
         string NewPost = SubmitPostTA.InnerText;
-        
+
         DataBaseQueries.CreateNewPost(UserId, QsId, NewPost);
 
         SubmitPostTA.InnerText = "";

@@ -7,11 +7,12 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="SubmenuPlaceHolder" runat="Server">
 
-    
-        <a id="CreateCategoryLink" runat="server" visible="false" href="CreateCategory.aspx" class="btn btn-default">Opret Kategori</a>
-    
+    <asp:HyperLink ID="CreateCategoryLink" runat="server" NavigateUrl='CreateCategory.aspx' class="btn btn-default" Visible='<%# Per.Allowed("CreateCategory") %>'>Opret Kategori</asp:HyperLink>
 
-    <hr id="CreateCategoryLinkSeparator" runat="server" visible="false"  />
+    <%--<a id="CreateCategoryLink" runat="server" visible="false" href="CreateCategory.aspx" class="btn btn-default">Opret Kategori</a>--%>
+
+
+    <hr id="CreateCategoryLinkSeparator" runat="server" Visible='<%# Per.Allowed("CreateCategory") %>' />
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -34,13 +35,16 @@
                         <span class="col-xs-1"><%# Eval ("NumberOfThreads") %></span>
                         <span class="col-xs-1"><%# Eval ("NumberOfPosts") %></span>
                         <span class="col-xs-3">Her skal der stå tidspunkt</span>
-                        <a href='EditCategory.aspx?Model=Category&Id=<%# Eval ("CategoryId") %>' class="col-xs-1 glyphicon glyphicon-pencil"></a>
+                        <%--<a href='EditCategory.aspx?Model=Category&Id=<%# Eval ("CategoryId") %>' class="col-xs-1 glyphicon glyphicon-pencil"></a>--%>
+                        <asp:HyperLink ID="EditCategoryLink" runat="server" NavigateUrl='<%#"EditCategory.aspx?Model=Category&Id=" + Eval ("CategoryId") %>' class="col-xs-1 glyphicon glyphicon-pencil" Visible='<%# Per.Allowed("EditCategory") %>'></asp:HyperLink>
+
                         <br />
                         <span class="col-xs-6"><%# Eval ("CategoryDescription") %></span>
                         <span class="col-xs-1"></span><span class="col-xs-1"></span>
                         <span class="col-xs-3">af <a href="#">brugernavn</a></span>
-                        <a href='<' class="col-xs-1 glyphicon glyphicon-trash"></a>
-                        
+                        <%--<a href='DeleteScript.aspx?Model=Category&Id=<%# Eval ("CategoryId") %>' class="col-xs-1 glyphicon glyphicon-trash"></a>--%>
+                        <asp:HyperLink ID="DeleteCategoryLink" runat="server" NavigateUrl='<%#"DeleteScript.aspx?Model=Category&Id=" + Eval ("CategoryId")  %>' class="col-xs-1 glyphicon glyphicon-trash" Visible='<%# Per.Allowed("DeleteCategory") %>'></asp:HyperLink>
+
                     </div>
 
 
@@ -49,7 +53,7 @@
 
             </asp:Repeater>
 
-            
+
 
         </div>
 

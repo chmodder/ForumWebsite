@@ -13,7 +13,7 @@ public partial class LoginScript : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        LastPage = Convert.ToString(Session["LastPage"]);
+        LastPage = Convert.ToString(Session["LastPage"]).Trim();
         UserName = Convert.ToString(Session["UserName"]);
         PassWord = Convert.ToString(Session["PassWord"]);
         string RoleId;
@@ -29,7 +29,7 @@ public partial class LoginScript : System.Web.UI.Page
             Per.CreatePrivilegeSession();
 
             //Return to last page or frontpage?___//
-            if (LastPage != null)
+            if (LastPage != null && LastPage != "")
             {
                 //Back to the last page
                 Response.Redirect(LastPage);

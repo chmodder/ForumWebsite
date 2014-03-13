@@ -19,103 +19,64 @@ public class DataBaseQueries
         //
     }
 
+    #region Create
+    //____________________________CREATE________________________________________//
 
-    //__________________________________EDIT_________________________________________//
-
-    //Returns data from the model that needs to be edited.
-    public static DataTable GetEditDataFromDb(string QsModel, string QsId)
+    public static void CreateCategory(string CatName, string CatDesc)
     {
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
         SqlCommand cmd = new SqlCommand();
 
         cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "CreateCategorySP";
 
-
-        switch (QsModel)
-        {
-
-            case "Category":
-                cmd.CommandText = "GetCategoryTableDataSP";
-                break;
-            case "Thread":
-                cmd.CommandText = "GetThreadAndFirstPostSP";
-                break;
-            //case "Post":
-            //    cmd.CommandText = "GetPostEditDataSP";
-            //    break;
-            //case "User":
-            //    cmd.CommandText = "GetUserEditDataSP";
-            //    break;
-
-        }
-
-        cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Convert.ToInt32(QsId);
+        cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = CatName;
+        cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = CatDesc;
 
         cmd.Connection = conn;
 
         conn.Open();
 
-        SqlDataAdapter da = new SqlDataAdapter(cmd);
-        DataTable dt = new DataTable();
-        da.Fill(dt);
+        cmd.ExecuteNonQuery();
+
         conn.Close();
-        return dt;
     }
 
-    //Updates table with new data (Category, Thread)
-    public static DataTable UpdateEditDataInBD(string QsModel, string QsId, string Param1, string Param2)
+    public static string CreateThread(int UserId, string CatId, string ThreadTitle, string ThreadContent)
     {
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
         SqlCommand cmd = new SqlCommand();
 
         cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "CreateThreadSP";
 
-        switch (QsModel)
-        {
-
-            case "Category":
-                cmd.CommandText = "UpdateCategoryTableDataSP";
-                cmd.Parameters.Add("@CatName", SqlDbType.NVarChar).Value = Param1;
-                cmd.Parameters.Add("@CatDesc", SqlDbType.NVarChar).Value = Param2;
-                break;
-            case "Thread":
-                cmd.CommandText = "UpdateThreadTableDataSP";
-                cmd.Parameters.Add("@ThreadTitle", SqlDbType.NVarChar).Value = Param1;
-                cmd.Parameters.Add("@ThreadContent", SqlDbType.NText).Value = Param2;
-                break;
-            //case "Post":
-            //    cmd.CommandText = "GetPostEditDataSP";
-            //    break;
-            //case "User":
-            //    cmd.CommandText = "GetUserEditDataSP";
-            //    break;
-
-        }
-
-        cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Convert.ToInt32(QsId);
+        cmd.Parameters.Add("@CatId", SqlDbType.Int).Value = Convert.ToInt32(CatId);
+        cmd.Parameters.Add("@Title", SqlDbType.NVarChar).Value = ThreadTitle;
+        cmd.Parameters.Add("@Content", SqlDbType.NText).Value = ThreadContent;
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
 
         cmd.Connection = conn;
 
         conn.Open();
 
-        SqlDataAdapter da = new SqlDataAdapter(cmd);
-        DataTable dt = new DataTable();
-        da.Fill(dt);
+        string ThreadId = Convert.ToString(cmd.ExecuteScalar());
+
         conn.Close();
-        return dt;
+
+        return ThreadId;
     }
 
-    public static void UpdatePostContent(string PostId, string EditedPost)
+    public static void CreateNewPost(int UserId, string QsId, string NewPost)
     {
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
         SqlCommand cmd = new SqlCommand();
 
         cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "CreateNewPostSP";
 
-        cmd.CommandText = "UpdatePostContentSP";
-
-        cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Convert.ToInt32(PostId);
-        cmd.Parameters.Add("@Content", SqlDbType.NText).Value = EditedPost;
+        cmd.Parameters.Add("@Content", SqlDbType.NText).Value = NewPost;
+        cmd.Parameters.Add("@ThreadId", SqlDbType.Int).Value = QsId;
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
 
         cmd.Connection = conn;
 
@@ -127,29 +88,32 @@ public class DataBaseQueries
     }
 
 
-    public static void UpdateEditedUserDataInDB(int UserId, string UserName, string Email, string Password)
+    public static string CreateNewUser(string UserName, string PassWord, string Email, int RoleId)
     {
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
         SqlCommand cmd = new SqlCommand();
 
         cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "CreateNewUserSP";
 
-        cmd.CommandText = "UpdateUserInfoSP";
-
-        cmd.Parameters.Add("@Id", SqlDbType.Int).Value = UserId;
-        cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = UserName;
+        cmd.Parameters.Add("@UserName", SqlDbType.NVarChar).Value = UserName;
+        cmd.Parameters.Add("@PassWord", SqlDbType.NVarChar).Value = PassWord;
         cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = Email;
-        cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = Password;
+        cmd.Parameters.Add("@RoleId", SqlDbType.Int).Value = RoleId;
 
         cmd.Connection = conn;
 
         conn.Open();
 
-        cmd.ExecuteNonQuery();
+        string UserId = Convert.ToString(cmd.ExecuteScalar());
 
         conn.Close();
-    }
 
+        return UserId;
+    }
+    #endregion
+
+    #region Read
     //____________________________READ________________________________________//
 
 
@@ -281,7 +245,7 @@ public class DataBaseQueries
 
     public static object GetUserInfo(int UserId)
     {
-        
+
 
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
         SqlCommand cmd = new SqlCommand();
@@ -407,18 +371,127 @@ public class DataBaseQueries
     }
 
 
-    //____________________________CREATE________________________________________//
-
-    public static void CreateCategory(string CatName, string CatDesc)
+    internal static bool IsPostMine(int UserId, object PostId)
     {
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
         SqlCommand cmd = new SqlCommand();
 
         cmd.CommandType = CommandType.StoredProcedure;
-        cmd.CommandText = "CreateCategorySP";
 
-        cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = CatName;
-        cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = CatDesc;
+        cmd.Parameters.Add("@PostId", SqlDbType.Int).Value = Convert.ToInt32(PostId);
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = Convert.ToInt32(UserId);
+
+        cmd.CommandText = "IsPostMineSP";
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        int PostFound = Convert.ToInt32(cmd.ExecuteScalar());
+
+        conn.Close();
+
+        return PostFound==1?true:false;
+    }
+    #endregion
+
+    #region Update
+    //__________________________________Update_________________________________________//
+
+    //Returns data from the model that needs to be edited.
+    public static DataTable GetEditDataFromDb(string QsModel, string QsId)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+
+
+        switch (QsModel)
+        {
+
+            case "Category":
+                cmd.CommandText = "GetCategoryTableDataSP";
+                break;
+            case "Thread":
+                cmd.CommandText = "GetThreadAndFirstPostSP";
+                break;
+            //case "Post":
+            //    cmd.CommandText = "GetPostEditDataSP";
+            //    break;
+            //case "User":
+            //    cmd.CommandText = "GetUserEditDataSP";
+            //    break;
+
+        }
+
+        cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Convert.ToInt32(QsId);
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        DataTable dt = new DataTable();
+        da.Fill(dt);
+        conn.Close();
+        return dt;
+    }
+
+    //Updates table with new data (Category, Thread)
+    public static DataTable UpdateEditDataInBD(string QsModel, string QsId, string Param1, string Param2)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+
+        switch (QsModel)
+        {
+
+            case "Category":
+                cmd.CommandText = "UpdateCategoryTableDataSP";
+                cmd.Parameters.Add("@CatName", SqlDbType.NVarChar).Value = Param1;
+                cmd.Parameters.Add("@CatDesc", SqlDbType.NVarChar).Value = Param2;
+                break;
+            case "Thread":
+                cmd.CommandText = "UpdateThreadTableDataSP";
+                cmd.Parameters.Add("@ThreadTitle", SqlDbType.NVarChar).Value = Param1;
+                cmd.Parameters.Add("@ThreadContent", SqlDbType.NText).Value = Param2;
+                break;
+            //case "Post":
+            //    cmd.CommandText = "GetPostEditDataSP";
+            //    break;
+            //case "User":
+            //    cmd.CommandText = "GetUserEditDataSP";
+            //    break;
+
+        }
+
+        cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Convert.ToInt32(QsId);
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        DataTable dt = new DataTable();
+        da.Fill(dt);
+        conn.Close();
+        return dt;
+    }
+
+    public static void UpdatePostContent(string PostId, string EditedPost)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+
+        cmd.CommandText = "UpdatePostContentSP";
+
+        cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Convert.ToInt32(PostId);
+        cmd.Parameters.Add("@Content", SqlDbType.NText).Value = EditedPost;
 
         cmd.Connection = conn;
 
@@ -429,76 +502,32 @@ public class DataBaseQueries
         conn.Close();
     }
 
-    public static string CreateThread(int UserId, string CatId, string ThreadTitle, string ThreadContent)
+
+    public static void UpdateEditedUserDataInDB(int UserId, string UserName, string Email, string Password)
     {
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
         SqlCommand cmd = new SqlCommand();
 
         cmd.CommandType = CommandType.StoredProcedure;
-        cmd.CommandText = "CreateThreadSP";
 
-        cmd.Parameters.Add("@CatId", SqlDbType.Int).Value = Convert.ToInt32(CatId);
-        cmd.Parameters.Add("@Title", SqlDbType.NVarChar).Value = ThreadTitle;
-        cmd.Parameters.Add("@Content", SqlDbType.NText).Value = ThreadContent;
-        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
+        cmd.CommandText = "UpdateUserInfoSP";
 
-        cmd.Connection = conn;
-
-        conn.Open();
-
-        string ThreadId = Convert.ToString(cmd.ExecuteScalar());
-
-        conn.Close();
-
-        return ThreadId;
-    }
-
-    public static void CreateNewPost(int UserId, string QsId, string NewPost)
-    {
-        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
-        SqlCommand cmd = new SqlCommand();
-
-        cmd.CommandType = CommandType.StoredProcedure;
-        cmd.CommandText = "CreateNewPostSP";
-
-        cmd.Parameters.Add("@Content", SqlDbType.NText).Value = NewPost;
-        cmd.Parameters.Add("@ThreadId", SqlDbType.Int).Value = QsId;
-        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
-
-        cmd.Connection = conn;
-
-        conn.Open();
-
-        cmd.ExecuteNonQuery();
-
-        conn.Close();
-    }
-
-
-    public static string CreateNewUser(string UserName, string PassWord, string Email, int RoleId)
-    {
-        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
-        SqlCommand cmd = new SqlCommand();
-
-        cmd.CommandType = CommandType.StoredProcedure;
-        cmd.CommandText = "CreateNewUserSP";
-
-        cmd.Parameters.Add("@UserName", SqlDbType.NVarChar).Value = UserName;
-        cmd.Parameters.Add("@PassWord", SqlDbType.NVarChar).Value = PassWord;
+        cmd.Parameters.Add("@Id", SqlDbType.Int).Value = UserId;
+        cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = UserName;
         cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = Email;
-        cmd.Parameters.Add("@RoleId", SqlDbType.Int).Value = RoleId;
+        cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = Password;
 
         cmd.Connection = conn;
 
         conn.Open();
 
-        string UserId = Convert.ToString(cmd.ExecuteScalar());
+        cmd.ExecuteNonQuery();
 
         conn.Close();
-
-        return UserId;
     }
+    #endregion
 
+    #region Delete
     //____________________________DELETE________________________________________//
 
     public static void DeleteCategory(string QsId)
@@ -563,6 +592,7 @@ public class DataBaseQueries
 
         conn.Close();
     }
+    #endregion
 
 
 

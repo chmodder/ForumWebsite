@@ -49,7 +49,7 @@
                         <br />
                         <span class="col-xs-3"><%# Eval ("RoleName") %></span>
                         <span class="col-xs-8"><%# Eval ("Content") %></span>
-                        <a href='EditPost.aspx?Model=Post&Id=<%# Eval ("PostId") %>' class="col-xs-1 glyphicon glyphicon-pencil"></a>
+                        <asp:HyperLink ID="EditPostLink" runat="server" NavigateUrl='<%#"EditPost.aspx?Model=Post&Id=" +  (int)Eval ("PostId") %>' class="col-xs-1 glyphicon glyphicon-pencil" Visible='<%# Per.EditPostPrivilege(Eval("PostId")) %>'></asp:HyperLink>
 
                     </div>
 
@@ -72,12 +72,12 @@
 
     <hr id="PostEditorDivider" runat="server" visible="false" />
 
-    
+
     <div id="PostEditor" runat="server" visible="false" class="col-xs-6">
         <textarea id="SubmitPostTA" class="form-control" rows="5" runat="server"></textarea>
         <hr />
         <asp:Button ID="SubmitPostBtn" class="btn btn-default" runat="server" Text="Gem svar" OnClick="SubmitPostBtn_Click" />
-        
+
     </div>
 </asp:Content>
 

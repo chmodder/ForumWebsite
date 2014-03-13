@@ -9,18 +9,19 @@ using System.Web;
 /// </summary>
 public class Per
 {
+    //public Per()
+    //{
+    //    //
+    //    // TODO: Add constructor logic here
+    //    //
+    //}   
+    
     public static bool Allowed(string CodeName)
     {
         ArrayList Privileges = new ArrayList();
         Privileges = (ArrayList)HttpContext.Current.Session["Privileges"];
-        if (Privileges.Contains(CodeName))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return Privileges.Contains(CodeName) ? true : false;
+
     }
 
     public static void CreatePrivilegeSession()
@@ -30,10 +31,35 @@ public class Per
         HttpContext.Current.Session["Privileges"] = DataBaseQueries.Privileges(RoleId);
     }
 
-    public Per()
+
+
+    public static bool IsPostMine(string CodeName, object PostId)
     {
-        //
-        // TODO: Add constructor logic here
-        //
+        int UserId = Convert.ToInt32(HttpContext.Current.Session["UserId"]);
+        //Tjekke rettigheder
+        if (Allowed(CodeName))
+        {
+            //PostOwner ejer ALLE indlæg. Bruges til fx. Admin eller moderator, som skal kunne slette alle indlæg
+            if (CodeName == "IsPostOwner")
+            {
+                return true;
+            }
+            else
+            {
+                //Tjekke ejerskab            
+                return DataBaseQueries.IsPostMine(UserId, PostId);
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static object EditPostPrivilege(object PostId)
+    {
+        int NewPostId = Convert.ToInt32(PostId);
+        return (Per.IsPostMine("EditPost", NewPostId) || Per.IsPostMine("IsPostOwner", NewPostId))?true:false;
+        
     }
 }

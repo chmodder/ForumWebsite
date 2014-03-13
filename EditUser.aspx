@@ -50,6 +50,18 @@
     </asp:Repeater>
 
     <hr />
+
+    <asp:Repeater ID="PrivilegesRpt" runat="server">
+        <ItemTemplate>
+
+            <asp:Label ID="PivilegeLbl" runat="server" Text='<%# Eval ("PrivilegeName") %>'></asp:Label>
+            <asp:Label ID="PrivDescLbl" runat="server" Text='<%# Eval ("PrivilegeName") %>'></asp:Label>
+
+        </ItemTemplate>
+    </asp:Repeater>
+    
+    <hr />
+
     <asp:Button ID="Discard" class="btn btn-default" runat="server" Text="Annuller" OnClick="Discard_Click" />
     <asp:Button ID="SaveEditedUserBtn" class="btn btn-default" runat="server" Text="Gem" OnClick="SaveEditedUserBtn_Click"/>
 

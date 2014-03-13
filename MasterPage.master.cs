@@ -8,7 +8,6 @@ using System.Web.UI.WebControls;
 
 public partial class MasterPage : System.Web.UI.MasterPage
 {
-    
 
 
     protected void Page_Load(object sender, EventArgs e)
@@ -19,9 +18,11 @@ public partial class MasterPage : System.Web.UI.MasterPage
             {
                 //RoleId 3 is guest-role
                 Session["RoleId"] = 3;
-                Per.CreatePrivilegeSession();
+
             }
         }
+        
+        Per.CreatePrivilegeSession();
 
         LoginLink.Visible = Per.Allowed("Login");
         CreateUserLink.Visible = Per.Allowed("CreateUser");

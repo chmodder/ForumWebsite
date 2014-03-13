@@ -14,7 +14,7 @@ public partial class Category : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
 
-        CreateThreadLink.Visible = Per.Allowed("CreateCategory");
+        CreateThreadLink.Visible = Per.Allowed("CreateThread");
 
         Session["LastPage"] = Request.Url.PathAndQuery;
 

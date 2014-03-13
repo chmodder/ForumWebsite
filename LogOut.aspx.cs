@@ -16,6 +16,7 @@ public partial class LogOut : System.Web.UI.Page
             Session.Abandon();
 
             Session["FlashMsgSuccess"] = "<strong>Tak</strong> for dit besøg. Du er nu logget ud.";
+            Session["RoleId"] = 3;
         }
         // Send brugeren tilbage til forsiden
 
