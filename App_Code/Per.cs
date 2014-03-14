@@ -34,8 +34,8 @@ public class Per
 
 
 
-
-    public static bool EditPostPrivilege(object PostId)
+    #region PostOwnerPrivilege
+    public static bool PostOwnerPrivilege(object PostId)
     {
         int NewPostId = Convert.ToInt32(PostId);
         return (Per.IsPostMine("EditPost", NewPostId) || Per.IsPostMine("IsPostOwner", NewPostId))?true:false;
@@ -64,10 +64,10 @@ public class Per
             return false;
         }
     }
+    #endregion
 
-
-    #region EditThread
-    public static bool EditThreadPrivilege(object ThreadId)
+    #region ThreadOwnerPrivilege
+    public static bool ThreadOwnerPrivilege(object ThreadId)
     {
         if (ThreadId.ToString() != "")
         {

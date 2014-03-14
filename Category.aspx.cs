@@ -33,4 +33,8 @@ public partial class Category : System.Web.UI.Page
         ThreadRpt.DataSource = DataBaseQueries.GetThreadInfoData(QsId);
         ThreadRpt.DataBind();
     }
+    protected void CreateThreadLink_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("CreateThread.aspx?CatId=" + QsId);
+    }
 }

@@ -49,7 +49,7 @@
                         <br />
                         <span class="col-xs-3"><%# Eval ("RoleName") %></span>
                         <span class="col-xs-8"><%# Eval ("Content") %></span>
-                        <asp:HyperLink ID="EditPostLink" runat="server" NavigateUrl='<%#"EditPost.aspx?Model=Post&Id=" +  (int)Eval ("PostId") %>' class="col-xs-1 glyphicon glyphicon-pencil" Visible='<%# Per.EditPostPrivilege(Eval("PostId")) %>'></asp:HyperLink>
+                        <asp:HyperLink ID="EditPostLink" runat="server" NavigateUrl='<%#"EditPost.aspx?Model=Post&Id=" +  (int)Eval ("PostId") %>' class="col-xs-1 glyphicon glyphicon-pencil" Visible='<%# Per.PostOwnerPrivilege(Eval("PostId")) %>'></asp:HyperLink>
 
                     </div>
 
