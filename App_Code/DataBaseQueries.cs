@@ -266,6 +266,58 @@ public class DataBaseQueries
         return dt;
     }
 
+    //Virker, men kan ikke bruges til DropDownList endnu pga. blandet datatyper
+    public static ArrayList GetRoles()
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "GetRolesSP";
+
+        //cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = Convert.ToInt32(UserId);
+
+        cmd.Connection = conn;
+
+        ArrayList Roles = new ArrayList();
+
+        conn.Open();
+
+        SqlDataReader reader = cmd.ExecuteReader();
+
+        foreach (var item in reader)
+        {
+            Roles.Add((int)reader["Id"]);
+            Roles.Add((string)reader["RoleName"]);
+            Roles.Add((string)reader["Description"]);
+        }
+        
+        conn.Close();
+        return Roles;
+    }
+
+
+    public static int GetRoleIdByUserId(int UserId)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+
+        cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = UserId;
+
+        cmd.CommandText = "GetRoleIdByUserIdSP";
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        int RoleId = Convert.ToInt32(cmd.ExecuteScalar());
+
+        conn.Close();
+
+        return RoleId;
+    }
 
     public static object GetUserListInfo()
     {
@@ -342,6 +394,53 @@ public class DataBaseQueries
 
     }
 
+
+    //public static ArrayList GetAllPrivileges()
+    //{
+    //    SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+    //    SqlCommand cmd = new SqlCommand();
+
+    //    cmd.CommandType = CommandType.StoredProcedure;
+    //    cmd.CommandText = "GetAllPrivilegesSP";
+
+
+    //    cmd.Connection = conn;
+
+    //    conn.Open();
+
+    //    ArrayList PrivilegesList = new ArrayList();
+
+    //    SqlDataReader reader = cmd.ExecuteReader();
+
+    //    foreach (var Privilege in reader)
+    //    {
+    //        PrivilegesList.Add(reader["Id"]);
+    //        PrivilegesList.Add(reader["Privilege"]);
+    //    }
+
+    //    conn.Close();
+    //    return PrivilegesList;
+    //}
+
+    public static DataTable GetAllPrivileges()
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "GetAllPrivilegesSP";
+
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        DataTable dt = new DataTable();
+        da.Fill(dt);
+        conn.Close();
+        return dt;
+    }
 
     internal static object Privileges(object RoleId)
     {
@@ -503,7 +602,7 @@ public class DataBaseQueries
     }
 
 
-    public static void UpdateEditedUserDataInDB(int UserId, string UserName, string Email, string Password)
+    public static void UpdateEditedUserDataInDB(int UserId, string UserName, string Email, string Password, int UserRole)
     {
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
         SqlCommand cmd = new SqlCommand();
@@ -516,6 +615,7 @@ public class DataBaseQueries
         cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = UserName;
         cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = Email;
         cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = Password;
+        cmd.Parameters.Add("@RoleId", SqlDbType.Int).Value = UserRole;
 
         cmd.Connection = conn;
 
@@ -595,5 +695,35 @@ public class DataBaseQueries
     #endregion
 
 
+
+
+
+
+    public static ArrayList GetSelectedItemsForThisRole(string RoleId)
+    {
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandText = "GetPrivilegesWithInfoByRoleIdSP";
+
+        cmd.Parameters.Add("@RoleId", SqlDbType.Int).Value = Convert.ToInt32(RoleId);
+
+        cmd.Connection = conn;
+
+        conn.Open();
+
+        ArrayList PrivilegesList = new ArrayList();
+
+        SqlDataReader reader = cmd.ExecuteReader();
+
+        foreach (var Privilege in reader)
+        {
+            PrivilegesList.Add(reader["Id"]);
+        }
+
+        conn.Close();
+        return PrivilegesList;
+    }
 
 }
