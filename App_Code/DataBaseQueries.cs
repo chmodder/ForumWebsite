@@ -442,7 +442,7 @@ public class DataBaseQueries
         return dt;
     }
 
-     internal static object Privileges(object RoleId)
+    internal static object Privileges(object RoleId)
     {
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
         SqlCommand cmd = new SqlCommand();
